@@ -12,4 +12,5 @@ Gem::Specification.new do |s|
   s.files       = ["lib/imwukong.rb"]
   s.homepage    = 'http://rubygems.org/gems/imwukong'
   s.license     = 'GNU2'
+  s.add_development_dependency "httparty", "~> 0.13.3"
 end
