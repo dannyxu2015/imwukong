@@ -11,3 +11,11 @@ gem 'imwukong', github: 'dannyxu2015/imwukong', branch: 'master'
 
 `wk.profiles([1,2,3,4])`
 
+# Todo
+- [x] user APIs
+- [ ] session APIs
+- [ ] message APIs
+- [ ] follow APIs
+- [ ] upload APIs
+- [ ] push APIs
+
