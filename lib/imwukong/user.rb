@@ -34,6 +34,5 @@ module Imwukong
   		wk_post('user', 'tag/update', params)
   	end
 
-  	
   end
 end
