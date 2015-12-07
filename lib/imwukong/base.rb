@@ -2,19 +2,14 @@ require 'httparty'
 require 'digest'
 
 module Imwukong
-
-  @config = { env: 'development' }
-
-  class << self
-    attr_accessor :config
-
-    def configure
-      yield @config if block_given?
-    end
-  end
-
   class Base
     include HTTParty
+    include Api::User
+    include Api::Session
+    include Api::Message
+    include Api::Follow
+    include Api::Upload
+    include Api::Push
 
     DEFAULT_OPTIONS = {
       api_version: 'v1'

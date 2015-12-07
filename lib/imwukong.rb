@@ -1,8 +1,6 @@
-require "imwukong/version"
-require "imwukong/base"
-require "imwukong/user"
+require 'imwukong/version'
+require 'imwukong/config'
+require 'imwukong/base'
+require 'imwukong/api'
 module Imwukong
-  class Base
-  	include Imwukong::User
-  end
 end
