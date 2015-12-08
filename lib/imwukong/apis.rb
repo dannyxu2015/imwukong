@@ -81,7 +81,7 @@ module Imwukong
         fail "Method #{method_name} already defined" if respond_to?(method_name)
         define_method method_name do |params|
           check_params(params, api[:args]||[])
-          self.send "wk_#{api[:http_method]}", method_group, api[:url], api[:prefix], api[:args]
+          self.send "wk_#{api[:http_method]}", method_group, api[:url], api[:prefix]||'v1/im', api[:args]
         end
       end
     end

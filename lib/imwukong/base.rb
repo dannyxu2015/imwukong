@@ -27,22 +27,22 @@ module Imwukong
       @options    = DEFAULT_OPTIONS
     end
 
-    def wk_post(type, method, prefix, params)
+    def wk_post(type, method, prefix='v1/im', params)
       options = {
         body:    params.to_json,
         headers: wukong_header
       }
-      prefix ||= 'v1/im'
+      prefix  ||= 'v1/im'
       result = self.class.send(:post, get_request_url(type, method, prefix), options) rescue nil
       handle_response(result)
     end
 
-    def wk_get(type, method, prefix, params)
+    def wk_get(type, method, prefix='v1/im', params)
       options = {
         query:   params,
         headers: wukong_header
       }
-      prefix ||= 'v1/im'
+      prefix  ||= 'v1/im'
       result = self.class.send(:get, get_request_url(type, method, prefix), options) rescue nil
       handle_response(result)
     end
@@ -70,7 +70,7 @@ module Imwukong
       Imwukong.config[:env] == 'production' ? PRODUCTION_HOST : DEV_HOST
     end
 
-    def get_request_url(type, method, prefix)
+    def get_request_url(type, method, prefix='v1/im')
       warn "#{wukong_host}/#{prefix}/#{type}/#{method}"
       "#{wukong_host}/#{prefix}/#{type}/#{method}"
     end
