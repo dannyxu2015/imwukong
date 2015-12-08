@@ -72,9 +72,9 @@ module Imwukong
 
     instance_eval do
       API_LIST.each do |api|
+        method_group = api[:method_pluralize] ? api[:method_group].pluralize : api[:method_group]
         method_name = "wk_#{method_group}_#{api[:method_name]}"
         fail "Method #{method_name} already defined" if respond_to?(method_name)
-        method_group = api[:method_pluralize] ? api[:method_group].pluralize : api[:method_group]
         define_method method_name do |params|
           check_params(params, api[:args]||[])
           self.send "wk_#{api[:http_method]}", method_group, api[:url], api[:args]
