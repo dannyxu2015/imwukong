@@ -2,27 +2,9 @@ module Imwukong
   module Api
     module Conversation
       # refer to: https://imwukong.com/#doc/doc/server/index.htm??聊天会话
-      CONVERSATION = 'conversation'.freeze
+      CONVERSATION          = 'conversation'.freeze
 
-      # # Todo: DSL to implement apis
-      # CONVERSATION_API = [
-      #   {
-      #     method_name: 'create',
-      #     http_method: :post,
-      #     url: 'create',
-      #     args: params,
-      #   },
-      # ]
-      #
-      # instance_eval do
-      #   CONVERSATION_API.each do |api|
-      #     define_method api[:method_name].to_sym do |params|
-      #       self.send "wk_#{api[:http_method]}", api[:url], api[:args]
-      #     end
-      #   end
-      # end
-
-      # 创建会话
+      创建会话
       def create(params)
         wk_post(CONVERSATION, 'create', params)
       end
@@ -88,29 +70,29 @@ module Imwukong
 
       def add_member(open_id, cid, members, message)
         params = {
-          openId: open_id,
+          openId:         open_id,
           conversationId: cid,
-          members: members,
-          message: message
+          members:        members,
+          message:        message
         }
         wk_post(CONVERSATION, 'member/add', params)
       end
 
       def remove_member(open_id, cid, members, message)
         params = {
-          openId: open_id,
+          openId:         open_id,
           conversationId: cid,
-          members: members,
-          message: message
+          members:        members,
+          message:        message
         }
         wk_post(CONVERSATION, 'member/remove', params)
       end
 
       def update_tag(open_id, cid, tag)
         params = {
-          openId: open_id,
+          openId:         open_id,
           conversationId: cid,
-          tag: tag
+          tag:            tag
         }
         wk_post(CONVERSATION, 'tag/update', params)
       end

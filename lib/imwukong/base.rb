@@ -4,21 +4,24 @@ require 'digest'
 module Imwukong
   class Base
     include HTTParty
-    include Api::User
-    include Api::Conversation
-    include Api::Message
-    include Api::Follow
-    include Api::Upload
-    include Api::Push
+    # include Api::User
+    # include Api::Conversation
+    # include Api::Message
+    # include Api::Follow
+    # include Api::Upload
+    # include Api::Push
 
-    DEFAULT_OPTIONS = {
-      api_version: 'v1'
-    }
+    DEFAULT_OPTIONS = { api_version: 'v1' }
     DEV_HOST        = 'https://sandbox-wkapi.laiwang.com'.freeze
     PRODUCTION_HOST = "https://wkapi.laiwang.com"
 
+    # output all APIs, format: wk_group_action
+    def wk_apis
+      methods.grep(/^wk_[a-zA-Z0-9]+_[a-zA-Z0-9]+/).sort
+    end
+
     def initialize(app_domain, app_token)
-      raise 'app domain/token is invalid' unless app_domain.is_a?(String) && app_token.is_a?(String) && app_domain.present? && app_token.present?
+      fail 'app domain/token is invalid' unless app_domain.present? && app_token.present?
       @app_domain = app_domain.strip
       @app_token  = app_token.strip
       @options    = DEFAULT_OPTIONS
@@ -30,14 +33,7 @@ module Imwukong
         headers: wukong_header
       }
       result = self.class.send(:post, get_request_url(type, method), options) rescue nil
-
-      # Fixme: Error handler
-      fail 'No respond from server' if result.nil?
-      warn ">>> Code: #{result.code}, " + result.inspect
-      r = result.parsed_response
-      fail result.inspect unless result.code == 200
-      fail "#{r['errorCode']}, #{r['errorMessage']}" if r['success'] == false
-      r['data']
+      handle_response(result)
     end
 
     def wk_get(type, method, params)
@@ -46,14 +42,7 @@ module Imwukong
         headers: wukong_header
       }
       result = self.class.send(:get, get_request_url(type, method), options) rescue nil
-
-      # Fixme: Error handler
-      fail 'No respond from server' if result.nil?
-      warn ">>> Code: #{result.code}, " + result.inspect
-      r = result.parsed_response
-      fail result.inspect unless result.code == 200
-      fail "#{r['errorCode']}, #{r['errorMessage']}" if r['success'] == false
-      r['data']
+      handle_response(result)
     end
 
     # def safe_json_parse(data)
@@ -65,7 +54,16 @@ module Imwukong
     # end
 
     private
-    
+
+    def handle_response(result)
+      fail 'No respond from server' if result.nil?
+      warn ">>> Code: #{result.code}, " + result.inspect
+      r = result.parsed_response
+      fail result.inspect unless result.code == 200
+      fail "#{r['errorCode']}, #{r['errorMessage']}" if r['success'] == false
+      r['data']
+    end
+
     def wukong_host
       Imwukong.config[:env] == 'production' ? PRODUCTION_HOST : DEV_HOST
     end
