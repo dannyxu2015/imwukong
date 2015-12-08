@@ -5,7 +5,7 @@ module Imwukong
   class Base
     include HTTParty
     include Api::User
-    include Api::Session
+    include Api::Conversation
     include Api::Message
     include Api::Follow
     include Api::Upload
@@ -71,8 +71,8 @@ module Imwukong
     end
 
     def get_request_url(type, method)
-      warn "#{wukong_host}/#{@options[:api_version]}/#{type}/#{method}"
-      "#{wukong_host}/#{@options[:api_version]}/#{type}/#{method}"
+      warn "#{wukong_host}/#{@options[:api_version]}/im/#{type}/#{method}"
+      "#{wukong_host}/#{@options[:api_version]}/im/#{type}/#{method}"
     end
 
     def wukong_sign(token = @app_token)
