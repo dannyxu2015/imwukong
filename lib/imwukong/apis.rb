@@ -8,12 +8,14 @@ module Imwukong
         method_group: 'user',
         method_name:  'update_profile',
         http_method:  :post,
+        prefix: 'v1',
         url:          'profile/update'
       },
       {
         method_group: 'user',
         method_name:  'profile',
         http_method:  :get,
+        prefix: 'v1',
         url:          'profile/get',
         params:       [:openId]
       },
@@ -21,6 +23,7 @@ module Imwukong
         method_group: 'user',
         method_name:  'profiles',
         http_method:  :post,
+        prefix: 'v1',
         url:          'profiles/get',
         params:       [:openIds]
       },
@@ -28,6 +31,7 @@ module Imwukong
         method_group: 'user',
         method_name:  'update_tag',
         http_method:  :post,
+        prefix: 'v1',
         url:          'tag/update',
         params:       [:openId, :tag, :op]
       },
@@ -77,7 +81,7 @@ module Imwukong
         fail "Method #{method_name} already defined" if respond_to?(method_name)
         define_method method_name do |params|
           check_params(params, api[:args]||[])
-          self.send "wk_#{api[:http_method]}", method_group, api[:url], api[:args]
+          self.send "wk_#{api[:http_method]}", method_group, api[:url], api[:prefix], api[:args]
         end
       end
     end

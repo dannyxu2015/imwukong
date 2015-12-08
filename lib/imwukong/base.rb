@@ -27,21 +27,23 @@ module Imwukong
       @options    = DEFAULT_OPTIONS
     end
 
-    def wk_post(type, method, params)
+    def wk_post(type, method, prefix, params)
       options = {
         body:    params.to_json,
         headers: wukong_header
       }
-      result = self.class.send(:post, get_request_url(type, method), options) rescue nil
+      prefix ||= 'v1/im'
+      result = self.class.send(:post, get_request_url(type, method, prefix), options) rescue nil
       handle_response(result)
     end
 
-    def wk_get(type, method, params)
+    def wk_get(type, method, prefix, params)
       options = {
         query:   params,
         headers: wukong_header
       }
-      result = self.class.send(:get, get_request_url(type, method), options) rescue nil
+      prefix ||= 'v1/im'
+      result = self.class.send(:get, get_request_url(type, method, prefix), options) rescue nil
       handle_response(result)
     end
 
@@ -68,9 +70,9 @@ module Imwukong
       Imwukong.config[:env] == 'production' ? PRODUCTION_HOST : DEV_HOST
     end
 
-    def get_request_url(type, method)
-      warn "#{wukong_host}/#{@options[:api_version]}/im/#{type}/#{method}"
-      "#{wukong_host}/#{@options[:api_version]}/im/#{type}/#{method}"
+    def get_request_url(type, method, prefix)
+      warn "#{wukong_host}/#{prefix}/#{type}/#{method}"
+      "#{wukong_host}/#{prefix}/#{type}/#{method}"
     end
 
     def wukong_sign(token = @app_token)
