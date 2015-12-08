@@ -80,13 +80,13 @@ module Imwukong
           self.send "wk_#{api[:http_method]}", method_group, api[:url], api[:args]
         end
       end
+    end
 
-      private
+    private
 
-      def check_params(params, check_list=[])
-        check_list.each do |key|
-          fail "argument required: #{key}" unless params.has_key?(key) || params.has_key?(key.to_sym)
-        end
+    def check_params(params, check_list=[])
+      check_list.each do |key|
+        fail "argument required: #{key}" unless params.has_key?(key) || params.has_key?(key.to_sym)
       end
     end
   end
