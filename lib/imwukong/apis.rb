@@ -36,8 +36,7 @@ module Imwukong
         method_name:      'create',
         method_pluralize: false,
         http_method:      :post,
-        url:              'create',
-        args:             params,
+        url:              'create'
       },
       {
         method_group: 'conversation',
