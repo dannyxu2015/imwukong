@@ -44,7 +44,7 @@ The gem is available as open source under the terms of the [MIT License](http://
 
 # Todo
 - [x] user APIs
-- [ ] session APIs
+- [x] session APIs
 - [ ] message APIs
 - [ ] follow APIs
 - [ ] upload APIs
