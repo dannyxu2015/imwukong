@@ -19,13 +19,15 @@ Or install it yourself as:
 
 ## Usage
 
-`wk = Imwukong::Base.new('*app_domain*','*app_token*')`
+```ruby
+wk = Imwukong::Base.new('*app_domain*','*app_token*')
 
-`wk.update_profile(avatar: "http://laiwang.wukong.com/tianpeng.png", birthday:651337200000,gender: 1, isActive: true, nick: "u1", nickPinyin: "testpinyin", openid: 1, ver: 1)`
+wk.update_profile(avatar: "http://laiwang.wukong.com/tianpeng.png", birthday:651337200000,gender: 1, isActive: true, nick: "u1", nickPinyin: "testpinyin", openid: 1, ver: 1)
 
-`wk.profile(1)`
+wk.profile(1)
 
-`wk.profiles([1,2,3,4])`
+wk.profiles([1,2,3,4])
+```
 
 ## Development
 
@@ -35,7 +37,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/imwukong.
+Bug reports and pull requests are welcome on GitHub at https://github.com/dannyxu2015/imwukong.
 
 
 ## License
