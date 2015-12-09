@@ -52,7 +52,7 @@ module Imwukong
       {
         method_group: 'conversation',
         method_name:  'info',
-        http_method:  :post,
+        http_method:  :get,
         url:          'get',
         args:         [:openId, :conversationId],
       },
