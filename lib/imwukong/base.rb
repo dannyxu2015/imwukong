@@ -15,11 +15,6 @@ module Imwukong
     DEV_HOST        = 'https://sandbox-wkapi.laiwang.com'.freeze
     PRODUCTION_HOST = "https://wkapi.laiwang.com"
 
-    # output all APIs, format: wk_group_action
-    def wk_apis
-      methods.grep(/^wk_[a-zA-Z0-9]+_[a-zA-Z0-9]+/).sort
-    end
-
     def initialize(app_domain, app_token)
       fail 'app domain/token is invalid' unless app_domain.present? && app_token.present?
       @app_domain = app_domain.strip
