@@ -1,6 +1,10 @@
 require 'active_support/core_ext/string'
 module Imwukong
   class Base
+    STATUS_FOLLOW = 0 # 关注
+    STATUS_FOLLOW_BY = 1 # 被关注
+    STATUS_BI_FOLLOW = 2 # 双向关系
+
     API_LIST = [
       # 用户
       {
@@ -165,7 +169,7 @@ module Imwukong
         method_name:      'unread',
         http_method:      :get,
         url:              'unread',
-        args:             [:openId, :conversationId]
+        args:             [:openId, :cursor, :count]
       },
       {
         # 查询会话成员列表
@@ -226,6 +230,7 @@ module Imwukong
       {
         # 查询最新的会话列表
         method_group: 'conversation',
+        method_pluralize: true,
         method_name:  'newest',
         http_method:  :get,
         url:          'newest/get',
@@ -277,7 +282,168 @@ module Imwukong
         args:         [:senderId, :conversationId, :receivers, :msgType, :content,
                        :extension, :tag, :XpnParam, :priority]
       },
+      {
+        # 查询单条消息
+        method_group: 'message',
+        method_name:  'query',
+        http_method:  :get,
+        url:          'query',
+        args:         [:openId, :messageId]
+      },
+      {
+        # 其实应该属于'聊天会话'分组, 悟空文档这样放, 就这样放吧 ~
+        # 查询会话的消息
+        method_group: 'conversation',
+        method_name:  'query',
+        http_method:  :get,
+        url:          'messages/query',
+        args:         [:openId, :conversationId, :cursor, :forward, :count]
+      },
+      {
+        # 设置消息为已读状态
+        method_group: 'message',
+        method_name:  'set_read',
+        http_method:  :post,
+        url:          'set/read',
+        args:         [:openId, :messageIds]
+      },
+      {
+        # 消息撤回
+        method_group: 'message',
+        method_name:  'recall',
+        http_method:  :post,
+        url:          'recall',
+        args:         [:openId, :messageId]
+      },
+      # 暂未开通
+      # {
+      #   # 短信邮件发送消息
+      #   # 会话好友没有安装应用时，可以通过短信邮件发送聊天消息
+      #   method_group: 'message',
+      #   method_name:  'sms',
+      #   http_method:  :post,
+      #   url:          'sms/notice',
+      #   args:         [:openId, :openIds, :contacts, :conversationId, :type]
+      # },
+      {
+        # 获取一条消息未读人的列表
+        method_group: 'message',
+        method_name:  'unread_members',
+        http_method:  :get,
+        url:          'member/unread',
+        args:         [:openId, :messageId]
+      },
+      {
+        # 删除消息
+        method_group: 'message',
+        method_name:  'remove',
+        http_method:  :post,
+        url:          'remove',
+        args:         [:openId, :messageIds]
+      },
+      {
+        # 修改用户消息的私有tag和扩展信息
+        method_group: 'message',
+        method_name:  'update_member',
+        http_method:  :post,
+        url:          'member/update',
+        args:         [:openId, :messageId, :receiverIds, :tag, :extension]
+      },
+      {
+        # 修改消息的扩展信息
+        method_group: 'message',
+        method_name:  'update_ext',
+        http_method:  :post,
+        url:          'ext/update',
+        args:         [:openId, :messageId, :extension]
+      },
 
+      # 关注
+      {
+        # 加关注
+        method_group: 'relation',
+        method_name:  'follow',
+        http_method:  :post,
+        url:          'status/follow',
+        args:         [:myOpenId, :tag, :openId]
+      },
+      {
+        # 取消关注
+        method_group: 'relation',
+        method_name:  'unfollow',
+        http_method:  :post,
+        url:          'status/unfollow',
+        args:         [:myOpenId, :tag, :openId]
+      },
+      {
+        # 分页获取自己的关注列表
+        method_group: 'relation',
+        method_name:  'follow_list',
+        http_method:  :get,
+        url:          'following/query',
+        # cursor, 第一次查询是0 ，后续查询取返回的nextCursor, nextCursor为-1表示无更多数据
+        args:         [:openId, :tag, :cursor,:count]
+      },
+      {
+        # 分页获取双向关注列表
+        method_group: 'relation',
+        method_name:  'bi_follow_list',
+        http_method:  :get,
+        url:          'binfollow/query',
+        args:         [:openId, :tag, :cursor,:count]
+      },
+      {
+        # 分页获取关注自己的人的列表
+        method_group: 'relation',
+        method_name:  'follow_by_list',
+        http_method:  :get,
+        url:          'followers/query',
+        args:         [:openId, :tag, :cursor,:count]
+      },
+      {
+        # 获取自己与其他用户的关系
+        method_group: 'relation',
+        method_name:  'query',
+        http_method:  :get,
+        url:          'status/query',
+        args:         [:myOpenId, :tag, :peerOpenId]
+      },
+      {
+        # 分页获取关注和被关注列表
+        method_group: 'relation',
+        method_name:  'list',
+        http_method:  :get,
+        url:          'all/query',
+        args:         [:openId, :tag, :cursor,:count]
+      },
+
+
+      # 推送
+      {
+        # 修改会话扩展信息的特定属性
+        method_group: 'push',
+        prefix: 'v1',
+        method_name:  'to_user',
+        http_method:  :post,
+        url:          'message/user',
+        # NotifyDataModel, 用户不在线的情况下，通过IOS APN、华为、小米通道下发的消息内容, 长度不超过256字节
+        # {
+        #   alertContent 可选，推送到APN的内容,适用于华为、小米、IOS设备。 string
+        #   badge 可选，app角标的增量数字，适用于IOS。 integer
+        #   params 可选, 自定义传输参数， key-value列表,key和value都为字符串类型，适用于IOS json map对象
+        #   sound 可选，推送消息提醒声音，应用中的音频资源名，支持aiff、wav、caf格式，适用于IOS。 string
+        #   timeToLive 可选，APN保持持续时间，单位秒，适用于IOS，建议不要设置，使用默认的值。 integer
+        # }
+        # PushDataModel, 通过悟空PUSH长连接发下去的消息
+        # {
+        #   content 消息内容。不能为空 string
+        #   toWeb 可选，是否只推送到web。默认是false,推送到所有终端，包括web。 boolean
+        #   type 用户定义的消息类型。 integer
+        #   persist 是否持久化存储,默认为持久化存储。 boolean
+        # }
+        args:         [:receiverId, :NotifyModel, :PushModel]
+      }
+        # 多个用户消息推送, 暂未开放
     ]
 
     instance_eval do
@@ -314,7 +480,7 @@ module Imwukong
       apis.map do |api|
         method_group = api[:method_pluralize] ? api[:method_group].pluralize : api[:method_group]
         method_name  = "wk_#{method_group}_#{api[:method_name]}"
-        "#{method_name}, #{api_url(api)}, #{api[:params].inspect} "
+        "#{method_name}, #{api_url(api)}, #{api[:args].inspect} "
       end
     end
 

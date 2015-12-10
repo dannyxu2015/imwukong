@@ -15,7 +15,8 @@ module Imwukong
     DEV_HOST        = 'https://sandbox-wkapi.laiwang.com'.freeze
     PRODUCTION_HOST = "https://wkapi.laiwang.com"
 
-    def initialize(app_domain, app_token)
+    def initialize(app_domain = Imwukong.config[:domain],
+                   app_token = Imwukong.config[:server][:app_token])
       fail 'app domain/token is invalid' unless app_domain.present? && app_token.present?
       @app_domain = app_domain.strip
       @app_token  = app_token.strip

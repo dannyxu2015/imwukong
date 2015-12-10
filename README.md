@@ -19,8 +19,34 @@ Or install it yourself as:
 
 ## Usage
 
+### Configuration
 ```ruby
-wk = Imwukong::Base.new('*app_domain*','*app_token*')
+ Imwukong.configure do |config|
+   config = {
+     env:     'development',
+     domain:  'your-domain',
+     android: {
+       app_key:    'android_app_key',
+       app_secret: 'android_app_secret'
+     },
+     ios:     {
+       app_key:    'ios_app_key',
+       app_secret: 'ios_app_secret'
+     },
+     web:     {
+       app_key:    'web_app_key',
+       app_secret: 'web_app_secret'
+     },
+     server:  {
+       app_token: 'server_app_token'
+     }
+   }
+ end
+```
+### Sample
+```ruby
+# use default config
+wk = Imwukong::Base.new
 
 wk.update_profile(avatar: "http://laiwang.wukong.com/tianpeng.png", birthday:651337200000,gender: 1, isActive: true, nick: "u1", nickPinyin: "testpinyin", openid: 1, ver: 1)
 
@@ -45,12 +71,19 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/dannyx
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
 
 # Todo
-- [x] user APIs
-- [x] session APIs
-- [ ] message APIs
-- [ ] follow APIs
-- [ ] upload APIs
-- [ ] push APIs
+
+## API
+
+- [x] user
+- [x] conversation
+- [x] message
+- [x] follow
+- [ ] upload
+- [x] push
+
+## Client
+
+- [x] client signature
 
 
 
