@@ -20,7 +20,7 @@ module Imwukong
         http_method:  :get,
         prefix:       'v1',
         url:          'profile/get',
-        params:       [:openId]
+        args:       [:openId]
       },
       {
         method_group: 'user',
@@ -28,7 +28,7 @@ module Imwukong
         http_method:  :post,
         prefix:       'v1',
         url:          'profiles/get',
-        params:       [:openIds]
+        args:       [:openIds]
       },
       {
         method_group: 'user',
@@ -36,7 +36,7 @@ module Imwukong
         http_method:  :post,
         prefix:       'v1',
         url:          'tag/update',
-        params:       [:openId, :tag, :op]
+        args:       [:openId, :tag, :op]
       },
 
       # 聊天会话
