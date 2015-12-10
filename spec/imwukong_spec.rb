@@ -21,4 +21,17 @@ describe Imwukong do
     h = wk.wk_user_profile(openId: 9)
     expect(h['nick']).to eq('测试')
   end
+
+  context 'Client test' do
+    it 'ios client' do
+      expect(Imwukong::Client.new.signature(1, 'ios')).to be_a(Hash)
+    end
+    it 'android client' do
+      expect(Imwukong::Client.new.signature(1, 'android')).to be_a(Hash)
+    end
+    # Fixme, anyway, it's unknown ~
+    # it 'unknown client' do
+    #   expect(Imwukong::Client.new.signature(1, 'unknown')).to raise_error
+    # end
+  end
 end
