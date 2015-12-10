@@ -6,7 +6,7 @@
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'imwukong', github: 'dannyxu2015/imwukong', branch: 'master'
+gem 'imwukong'
 ```
 
 And then execute:
