@@ -6,8 +6,8 @@ require 'imwukong/version'
 Gem::Specification.new do |spec|
   spec.name          = "imwukong"
   spec.version       = Imwukong::VERSION
-  spec.authors       = ["xh"]
-  spec.email         = ["xh223@dfc.cn"]
+  spec.authors       = ["Danny Xu"]
+  spec.email         = ["dannyxu@gmail.com"]
 
   spec.summary       = %q{I am Wukong!}
   spec.description   = %q{ruby server api for imwukong of alibaba}
