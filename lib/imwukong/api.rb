@@ -5,6 +5,14 @@ module Imwukong
     STATUS_FOLLOW_BY = 1 # 被关注
     STATUS_BI_FOLLOW = 2 # 双向关系
 
+    # api description
+    #   method_group: string, 接口分组名
+    #   method_pluralize: boolean, 接口名是否为复数形式, 默认为false
+    #   method_name: 接口名
+    #   prefix: url前缀, 默认是'v1/im',
+    #   url: 接口url
+    #   args: 参数列表, symbol array
+    #   default: 可选参数的默认值, 调用时可以不用传
     API_LIST = [
       # 用户
       {
@@ -46,7 +54,12 @@ module Imwukong
         method_name:      'create',
         method_pluralize: false,
         http_method:      :post,
-        url:              'create'
+        url:              'create',
+        args: [:openId, :type, :icon, :title, :members],
+        default: {
+          icon: '',
+          title: ''
+        }
       },
       {
         # 查询聊天会话的概要信息
@@ -452,6 +465,7 @@ module Imwukong
         method_name  = "wk_#{method_group}_#{api[:method_name]}"
         fail "Method #{method_name} already defined" if respond_to?(method_name)
         define_method method_name do |params|
+          params.merge!(api[:default]||{})
           check_params(params, api[:args]||[])
           self.send "wk_#{api[:http_method]}", method_group, api[:url], api[:prefix]||'v1/im', params
         end
