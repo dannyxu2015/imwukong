@@ -29,9 +29,8 @@ describe Imwukong do
     it 'android client' do
       expect(Imwukong::Client.new.signature(1, 'android')).to be_a(Hash)
     end
-    # Fixme, anyway, it's unknown ~
-    # it 'unknown client' do
-    #   expect(Imwukong::Client.new.signature(1, 'unknown')).to raise_error
-    # end
+    it 'unknown client' do
+      expect{Imwukong::Client.new.signature(1, 'unknown')}.to raise_error(RuntimeError, %q(unknown device type "unknown"))
+    end
   end
 end
