@@ -1,4 +1,7 @@
 # Imwukong
+[![Build Status](https://travis-ci.org/dannyxu2015/imwukong.svg)]
+(https://travis-ci.org/dannyxu2015/imwukong)
+[![Gem Version](https://badge.fury.io/rb/imwukong.svg)](https://badge.fury.io/rb/imwukong)
 :sunny:server APIs for [阿里悟空](https://imwukong.com)
 
 ## Installation
