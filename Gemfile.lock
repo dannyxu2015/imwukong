@@ -41,10 +41,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bundler (~> 1.10)
+  bundler
   imwukong!
   rake (~> 10.0)
   rspec
 
 BUNDLED WITH
-   1.10.6
+   1.11.2
